@@ -1,6 +1,6 @@
 {
   "name": "angular-front-router",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Generate AngularJS states from Front Matter in state templates.",
   "main": "index.js",
   "scripts": {
