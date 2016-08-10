@@ -7,6 +7,15 @@ var fs          = require('fs');
 module.exports = function(options) {
   var configs = [];
   var directory = options.dir || process.cwd();
+  var template = "";
+  var placeholder = "";
+  if (options.template && options.placeholder) {
+    template = options.template;
+    placeholder = options.placeholder;
+  } else {
+    template = 'var foundationRoutes = <routes>; \n';
+    placeholder = '<routes>';
+  }
 
   function bufferContents(file, enc, cb) {
     var config;
@@ -51,7 +60,7 @@ module.exports = function(options) {
       return a.url < b.url;
     });
 
-    content = 'var foundationRoutes = ' + JSON.stringify(configs) + '; \n';
+    content = template.replace(placeholder, JSON.stringify(configs));
 
     // create file or append if exists
     fs.appendFile(appPath, content, function(err) {
