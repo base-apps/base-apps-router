@@ -24,7 +24,7 @@ Front Router is a Gulp plugin that takes in HTML files, removes the Front Matter
 
 ```js
 var gulp = require('gulp');
-var router = require('front-router');
+var router = require('angular-front-router');
 
 gulp.src('./src/templates/**/*.html')
   .pipe(router({
