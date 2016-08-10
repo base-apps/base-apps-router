@@ -1,6 +1,8 @@
-# Front Router
+# Angular Front Router
 
-Front Router simplifies the creation of routes in AngularJS by allowing you to define them directly in your view templates.
+An open source, community-driven fork of [Front Router by Zurb](https://github.com/zurb/front-router).
+
+Angular Front Router simplifies the creation of routes in AngularJS by allowing you to define them directly in your view templates.
 
 State settings are defined in a [Front Matter](http://jekyllrb.com/docs/frontmatter/) block at the top of each template.
 
