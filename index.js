@@ -45,12 +45,16 @@ module.exports = function(options) {
   function endStream(cb) {
     var self = this;
     var appPath = options.path;
+    var content = "";
 
     configs.sort(function(a, b) {
       return a.url < b.url;
     });
 
-    fs.writeFile(appPath, 'var foundationRoutes = ' + JSON.stringify(configs) + '; \n', function(err) {
+    content = 'var foundationRoutes = ' + JSON.stringify(configs) + '; \n';
+
+    // create file or append if exists
+    fs.appendFile(appPath, content, function(err) {
       if(err) throw err;
       cb();
     });
