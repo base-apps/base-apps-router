@@ -16,7 +16,7 @@ controller: PostController
 
 Front Router parses each file, removing the Front Matter from the HTML and storing it in a JavaScript object of states. This object is saved as a new JavaScript file, which can be read by another library and converted into actual routes.
 
-This library was developed for use with [Foundation for Apps](http://foundation.zurb.com/apps/), a responsive web app framework from [ZURB](http://zurb.com/), to simplify the process of prototyping single-page web apps.
+This library was developed for use with [Angular Base App](https://github.com/base-apps/angular-base-apps), a responsive web app framework from [Base Apps](https://github.com/base-apps), to simplify the process of prototyping single-page web apps.
 
 ## Usage
 
