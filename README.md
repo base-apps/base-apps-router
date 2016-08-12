@@ -20,6 +20,18 @@ Front Router parses each file, removing the Front Matter from the HTML and stori
 
 This library was developed for use with [Angular Base Apps](https://github.com/base-apps/angular-base-apps), a responsive web app framework from [Base Apps](https://github.com/base-apps), to simplify the process of prototyping single-page web apps.
 
+## Documentation
+
+Documentation was originally provided as part of Angular Base Apps.  Those docs can be found [here](https://base-apps.github.io/angular-base-apps/#!/angular).
+
+## Install
+
+This repository is available on npm.
+
+```bash
+npm install angular-front-router --save
+```
+
 ## Usage
 
 Front Router is a Gulp plugin that takes in HTML files, removes the Front Matter, and returns the modified file. When the stream ends, the route data is written to disk as a new file.
@@ -36,7 +48,11 @@ gulp.src('./src/templates/**/*.html')
   .pipe(gulp.dest('./build/templates'));
 ```
 
-The Front Router function accepts two parameters:
+Angular Front Router function accepts the following parameters:
 
   - **path** (String): filename to write the routes to.
   - **root** (String): root folder of the templates.
+  - **template** (String): template for file outputted to `path`.
+    - defaults to `var foundationRoutes = <routes>;`
+  - **placeholder** (String): placeholder for route configuration in `template`.
+    - defaults to `<routes>`
