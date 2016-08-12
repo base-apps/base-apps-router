@@ -26,7 +26,7 @@ Documentation was originally provided as part of Angular Base Apps.  Those docs 
 
 ## Install
 
-This repository is available on npm.
+Get started by installing angular-front-router from npm.
 
 ```bash
 npm install angular-front-router --save
