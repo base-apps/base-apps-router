@@ -44,7 +44,7 @@ gulp.src('./src/templates/**/*.html')
   .pipe(gulp.dest('./build/templates'));
 ```
 
-Angular Front Router function accepts the following parameters:
+Angular Front Router accepts the following parameters:
 
   - **path** (String): filename to write the routes to.
   - **root** (String): root folder of the templates.
@@ -52,6 +52,12 @@ Angular Front Router function accepts the following parameters:
     - defaults to `var foundationRoutes = <routes>;`
   - **placeholder** (String): placeholder for route configuration in `template`.
     - defaults to `<routes>`
+
+When used with [angular-dynamic-routing](https://github.com/base-apps/angular-dynamic-routing), it is suggested to use  `$FoundationStateProvider` for configuring your routes.  You can do this by using the following `template`/`placeholder`:
+  - **template**: `angular.module('dynamicRouting').config(['$FoundationStateProvider', function(FoundationStateProvider){ FoundationStateProvider.registerDynamicRoutes(<routes>); }]);`
+  - **placeholder**: `<routes>`
+
+## Front Matter Parameters
 
 ### name
 
