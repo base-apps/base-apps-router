@@ -1,6 +1,10 @@
 const FrontRouter = require('../lib/FrontRouter');
+const frontRouter = require('..');
+const fs = require('fs');
 const path = require('path');
+const rimraf = require('rimraf');
 const tempfile = require('tempfile');
+const vfs = require('vinyl-fs');
 const { Libraries } = FrontRouter;
 const { expect } = require('chai');
 
@@ -84,4 +88,56 @@ describe('FrontRouter', () => {
       expect(output).to.contain(JSON.stringify(fr.routes));
     });
   });
+});
+
+describe('front-router API', () => {
+  const input = './test/fixtures/home.html';
+  const output = './test/fixtures/_build';
+  const pageRoot = './test/fixtures';
+
+  afterEach(done => {
+    rimraf(output, done);
+  });
+
+  it('works standalone', done => {
+    frontRouter({
+      src: input,
+      dest: output,
+      root: pageRoot,
+      path: path.join(output, 'routes.js')
+    }).then(() => checkFiles(done)).catch(done);
+  });
+
+  it('works as a gulp plugin', done => {
+    vfs.src(input)
+      .pipe(frontRouter({
+        root: pageRoot,
+        path: path.join(output, 'routes.js')
+      }))
+      .pipe(vfs.dest(output))
+      .on('finish', (err) => {
+        if (err) throw err;
+        checkFiles(done);
+      });
+  });
+
+  /**
+   * Verify that HTML files passed through the plugin had their Front Matter stripped, and that a routes JavaScript file was created.
+   * @param {Function} cb - Callback for Mocha.
+   */
+  function checkFiles(cb) {
+    const expected = {
+      name: 'home',
+      url: '/',
+      path: 'home.html'
+    }
+
+    const pageFile = fs.readFileSync(path.join(output, 'home.html'));
+    const routesFile = fs.readFileSync(path.join(output, 'routes.js'));
+
+    expect(pageFile.toString()).to.not.contain('---');
+    expect(routesFile.toString()).to.contain(JSON.stringify(expected));
+
+    cb();
+  }
 });
