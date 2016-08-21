@@ -5,7 +5,6 @@ const path = require('path');
 const rimraf = require('rimraf');
 const tempfile = require('tempfile');
 const vfs = require('vinyl-fs');
-const { Libraries } = FrontRouter;
 const { expect } = require('chai');
 
 describe('FrontRouter', () => {
@@ -71,21 +70,17 @@ describe('FrontRouter', () => {
     it('writes routes to a file', () => {
       const fr = new FrontRouter();
       const filePath = tempfile('.js');
-      const onRead = (err, data) => expect(data).to.contain('var routes = []');
+      const onRead = (err, data) => expect(data.toString()).to.contain('var BaseAppsRoutes = []');
 
       fr.writeRoutes(filePath).then(() => fs.readFile(filePath, onRead));
     });
-  });
 
-  describe('makeOutputString()', () => {
-    it('converts routes to a JavaScript variable declaration', () => {
-      const fr = new FrontRouter();
+    it('writes an alternate library adapter', () => {
+      const fr = new FrontRouter({ library: 'angular' });
       const filePath = tempfile('.js');
-      const expected = Object.assign({}, route, { path: 'src/home.html' });
-      fr.addRoute(route);
-      const output = FrontRouter.makeOutputString(fr.routes);
+      const onRead = (err, data) => expect(data.toString()).to.contain('angular.module');
 
-      expect(output).to.contain(JSON.stringify(fr.routes));
+      fr.writeRoutes(filePath).then(() => fs.readFile(filePath, onRead));
     });
   });
 });
