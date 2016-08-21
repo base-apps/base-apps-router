@@ -1,6 +1,6 @@
 const fs = require('fs');
 const path = require('path');
-const Libraries = require('../libraries');
+const Libraries = require('./libraries');
 
 /**
  * Options that can be passed to the `FrontRouter` class.

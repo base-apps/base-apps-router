@@ -1,5 +1,5 @@
-const FrontRouter = require('../lib/FrontRouter');
-const frontRouter = require('..');
+const FrontRouter = require('../dist/FrontRouter');
+const frontRouter = require('../dist');
 const fs = require('fs');
 const path = require('path');
 const rimraf = require('rimraf');

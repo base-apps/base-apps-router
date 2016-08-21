@@ -1,7 +1,7 @@
 const fm = require('front-matter');
-const FrontRouter = require('./lib/FrontRouter');
+const FrontRouter = require('./FrontRouter');
 const hybrid = require('hybrid-gulp');
-const PluginError = require('gulp-util').PluginError;
+const { PluginError } = require('gulp-util');
 
 /**
  * Options object passed to the `frontRouter()` function.

@@ -2,9 +2,13 @@
   "name": "angular-front-router",
   "version": "1.1.1",
   "description": "Generate AngularJS states from Front Matter in state templates.",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
-    "test": "mocha --require babel-register"
+    "precompile": "rimraf dist && mkdir dist",
+    "compile": "babel src/ -d dist/",
+    "pretest": "npm run compile",
+    "test": "mocha --require babel-register",
+    "prepublish": "npm run compile"
   },
   "repository": {
     "type": "git",
