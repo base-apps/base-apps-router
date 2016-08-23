@@ -43,7 +43,7 @@ router({
   dest: './build/templates'
   path: './build/js/routes.js',
   root: './src/templates'
-}, function() {
+}).then(function() {
   console.log("Base Apps Router complete!");
 });
 ```
