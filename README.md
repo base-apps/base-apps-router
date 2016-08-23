@@ -53,6 +53,19 @@ Base Apps Router accepts the following parameters:
   - **root** (String): Common path to source HTML files.
   - **path** (String): File path for JavaScript routes file.
   - **library** (String): Library to format routes file for.
+    - Values: default, angular
+
+## Libraries
+
+The following libraries are supported
+
+### default
+
+If no library is provided, the route configuration will be output to the global variable `BaseAppsRoutes`.
+
+### angular
+
+Use in combination with [Angular Dynamic Routing](https://github.com/base-apps/angular-dynamic-routing) to produce `ui-router` states for angular from the route configurations.  The `BaseAppsState` service provided by the `dynamicRouting` module will be used to configure the routes.
 
 ## Front Matter Parameters
 
