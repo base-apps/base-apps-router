@@ -2,3 +2,4 @@
 node_modules
 _build
 test/fixtures/routes.js
+dist
