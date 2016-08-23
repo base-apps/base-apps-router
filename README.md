@@ -38,7 +38,7 @@ var router = require('base-apps-router');
 
 gulp.src('./src/templates/**/*.html')
   .pipe(router({
-  output: './build/js/routes.js',
+    path: './build/js/routes.js',
     root: './src/templates'
   }))
   .pipe(gulp.dest('./build/templates'));
@@ -46,15 +46,11 @@ gulp.src('./src/templates/**/*.html')
 
 Base Apps Router accepts the following parameters:
 
-  - **src** (String): root folder of the templates.
-  - **dest** (String): filename to write the routes to.
-  - **root** (String): Library to format routes file for.
-  - **output** (String): Library to format routes file for.
+  - **src** (String): Glob of HTML files to parse. Not used in a Gulp context.
+  - **dest** (String): Folder to output HTML files to. Not used in a Gulp context.
+  - **root** (String): Common path to source HTML files.
+  - **path** (String): File path for JavaScript routes file.
   - **library** (String): Library to format routes file for.
-
-When used with [angular-dynamic-routing](https://github.com/base-apps/angular-dynamic-routing), it is suggested to use  `$BaseAppsStateProvider` for configuring your routes.  You can do this by using the following `template`/`placeholder`:
-  - **template**: `angular.module('dynamicRouting').config(['$BaseAppsStateProvider', function(BaseAppsStateProvider){ BaseAppsStateProvider.registerDynamicRoutes(<routes>); }]);`
-  - **placeholder**: `<routes>`
 
 ## Front Matter Parameters
 
