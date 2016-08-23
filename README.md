@@ -1,8 +1,8 @@
-# Base Router
+# Base Apps Router
 
 An open source, community-driven fork of [Front Router by Zurb](https://github.com/zurb/front-router).
 
-Base Router simplifies the creation of routes in AngularJS by allowing you to define them directly in your view templates.
+Base Apps Router simplifies the creation of routes in AngularJS by allowing you to define them directly in your view templates.
 
 State settings are defined in a [Front Matter](http://jekyllrb.com/docs/frontmatter/) block at the top of each template.
 
@@ -22,10 +22,10 @@ This library was developed for use with [Angular Base Apps](https://github.com/b
 
 ## Install
 
-Get started by installing base-router from npm.
+Get started by installing base-apps-router from npm.
 
 ```bash
-npm install base-router --save
+npm install base-apps-router --save
 ```
 
 ## Usage
@@ -34,7 +34,7 @@ Front Router is a Gulp plugin that takes in HTML files, removes the Front Matter
 
 ```js
 var gulp = require('gulp');
-var router = require('base-router');
+var router = require('base-apps-router');
 
 gulp.src('./src/templates/**/*.html')
   .pipe(router({
@@ -44,7 +44,7 @@ gulp.src('./src/templates/**/*.html')
   .pipe(gulp.dest('./build/templates'));
 ```
 
-Base Router accepts the following parameters:
+Base Apps Router accepts the following parameters:
 
   - **src** (String): root folder of the templates.
   - **dest** (String): filename to write the routes to.
