@@ -1,9 +1,9 @@
 module.exports = (routes) => {
   return `
-  angular.module('foundation.dynamicRouting').config([
-    '$FoundationStateProvider',
-    function(FoundationStateProvider) {
-      FoundationStateProvider.registerDynamicRoutes(${JSON.stringify(routes)});
+  angular.module('dynamicRouting').config([
+    '$BaseAppsStateProvider',
+    function(BaseAppsStateProvider) {
+      BaseAppsStateProvider.registerDynamicRoutes(${JSON.stringify(routes)});
     }
   ]);
   `

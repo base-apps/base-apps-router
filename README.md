@@ -1,8 +1,8 @@
-# Angular Front Router
+# Base Router
 
 An open source, community-driven fork of [Front Router by Zurb](https://github.com/zurb/front-router).
 
-Angular Front Router simplifies the creation of routes in AngularJS by allowing you to define them directly in your view templates.
+Base Router simplifies the creation of routes in AngularJS by allowing you to define them directly in your view templates.
 
 State settings are defined in a [Front Matter](http://jekyllrb.com/docs/frontmatter/) block at the top of each template.
 
@@ -22,10 +22,10 @@ This library was developed for use with [Angular Base Apps](https://github.com/b
 
 ## Install
 
-Get started by installing angular-front-router from npm.
+Get started by installing base-router from npm.
 
 ```bash
-npm install angular-front-router --save
+npm install base-router --save
 ```
 
 ## Usage
@@ -34,27 +34,26 @@ Front Router is a Gulp plugin that takes in HTML files, removes the Front Matter
 
 ```js
 var gulp = require('gulp');
-var router = require('angular-front-router');
+var router = require('base-router');
 
 gulp.src('./src/templates/**/*.html')
   .pipe(router({
-    path: './build/js/routes.js',
-    root: './src/templates/'
+  output: './build/js/routes.js',
+    root: './src/templates'
   }))
   .pipe(gulp.dest('./build/templates'));
 ```
 
-Angular Front Router accepts the following parameters:
+Base Router accepts the following parameters:
 
-  - **path** (String): filename to write the routes to.
-  - **root** (String): root folder of the templates.
-  - **template** (String): template for file outputted to `path`.
-    - defaults to `var foundationRoutes = <routes>;`
-  - **placeholder** (String): placeholder for route configuration in `template`.
-    - defaults to `<routes>`
+  - **src** (String): root folder of the templates.
+  - **dest** (String): filename to write the routes to.
+  - **root** (String): Library to format routes file for.
+  - **output** (String): Library to format routes file for.
+  - **library** (String): Library to format routes file for.
 
-When used with [angular-dynamic-routing](https://github.com/base-apps/angular-dynamic-routing), it is suggested to use  `$FoundationStateProvider` for configuring your routes.  You can do this by using the following `template`/`placeholder`:
-  - **template**: `angular.module('dynamicRouting').config(['$FoundationStateProvider', function(FoundationStateProvider){ FoundationStateProvider.registerDynamicRoutes(<routes>); }]);`
+When used with [angular-dynamic-routing](https://github.com/base-apps/angular-dynamic-routing), it is suggested to use  `$BaseAppsStateProvider` for configuring your routes.  You can do this by using the following `template`/`placeholder`:
+  - **template**: `angular.module('dynamicRouting').config(['$BaseAppsStateProvider', function(BaseAppsStateProvider){ BaseAppsStateProvider.registerDynamicRoutes(<routes>); }]);`
   - **placeholder**: `<routes>`
 
 ## Front Matter Parameters
@@ -172,8 +171,8 @@ MyController.$inject = ['$scope', '$stateParams', '$state', '$controller'];
 
 function MyController($scope, $stateParams, $state, $controller) {
   angular.extend(this, $controller('DefaultController', {
-    $scope: $scope, 
-    $stateParams: $stateParams, 
+    $scope: $scope,
+    $stateParams: $stateParams,
     $state: $state
   }));
   // Your code...

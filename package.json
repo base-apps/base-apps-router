@@ -1,5 +1,5 @@
 {
-  "name": "angular-front-router",
+  "name": "base-router",
   "version": "1.1.1",
   "description": "Generate AngularJS states from Front Matter in state templates.",
   "main": "dist/index.js",
@@ -12,7 +12,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/base-apps/angular-front-router"
+    "url": "https://github.com/base-apps/base-router"
   },
   "keywords": [
     "foundation",
@@ -22,9 +22,9 @@
   "author": "Base Apps",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/base-apps/angular-front-router/issues"
+    "url": "https://github.com/base-apps/base-router/issues"
   },
-  "homepage": "https://github.com/base-apps/angular-front-router",
+  "homepage": "https://github.com/base-apps/base-router",
   "dependencies": {
     "front-matter": "^1.0.0",
     "gulp-util": "^3.0.4",

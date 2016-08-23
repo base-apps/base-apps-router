@@ -38,7 +38,7 @@ module.exports = opts => {
       }
 
       if (file.isStream()) {
-        cb(new PluginError('angular-front-router', 'Streams not supported.'));
+        cb(new PluginError('base-router', 'Streams not supported.'));
       }
 
       if (file.isBuffer()) {
