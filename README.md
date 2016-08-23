@@ -32,8 +32,23 @@ npm install base-apps-router --save
 
 ## Usage
 
-Front Router is a Gulp plugin that takes in HTML files, removes the Front Matter, and returns the modified file. When the stream ends, the route data is written to disk as a new file.
+Base Apps Router is a plugin that takes in HTML files, removes the Front Matter, and returns the modified file. On completion, the route data is written to disk as a new file.
 
+The plugin can be used standalone:
+```js
+var router = require('base-apps-router');
+
+router({
+  src: './src/templates/**/*.html',
+  dest: './build/templates'
+  path: './build/js/routes.js',
+  root: './src/templates'
+}, function() {
+  console.log("Base Apps Router complete!");
+});
+```
+
+Or as part of a Gulp stream:
 ```js
 var gulp = require('gulp');
 var router = require('base-apps-router');
