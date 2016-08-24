@@ -14,7 +14,7 @@ var PluginError = _require.PluginError;
  * @prop {String} src - Glob of HTML files to parse. Not used in a Gulp context.
  * @prop {String} dest - Folder to output HTML files to. Not used in a Gulp context.
  * @prop {String} root - Common path to source HTML files.
- * @prop {String} output - File path for JavaScript routes file.
+ * @prop {String} path - File path for JavaScript routes file.
  * @prop {String} library - Library to format routes file for.
  */
 
