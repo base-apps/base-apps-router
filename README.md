@@ -3,6 +3,7 @@
 An open source, community-driven fork of [Front Router by Zurb](https://github.com/zurb/front-router).
 
 [![Build Status](https://travis-ci.org/base-apps/base-apps-router.svg)](https://travis-ci.org/base-apps/base-apps-router)
+[![GitHub version](https://badge.fury.io/gh/base-apps%2Fbase-apps-router.svg)](https://badge.fury.io/gh/base-apps%2Fbase-apps-router)
 
 Base Apps Router simplifies the creation of routes in AngularJS by allowing you to define them directly in your view templates.
 
