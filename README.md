@@ -68,6 +68,7 @@ Base Apps Router accepts the following parameters:
   - **dest** (String): Folder to output HTML files to. Not used in a Gulp context.
   - **root** (String): Common path to source HTML files.
   - **path** (String): File path for JavaScript routes file.
+  - **overwrite** (String): Whether or not to overwrite the routes file (appends by default).
   - **library** (String): Library to format routes file for.
     - Values: default, angular
 

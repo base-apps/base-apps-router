@@ -22,7 +22,7 @@ describe('FrontRouter', () => {
 
     it('sets default options', () => {
       const fr = new FrontRouter();
-      expect(fr).to.have.property('options').with.keys(['library', 'pageRoot']);
+      expect(fr).to.have.property('options').with.keys(['library', 'pageRoot', 'overwrite']);
     });
 
     it('sets empty routes array', () => {
@@ -75,6 +75,30 @@ describe('FrontRouter', () => {
       fr.writeRoutes(filePath).then(() => fs.readFile(filePath, onRead));
     });
 
+    it('appends routes to a file', () => {
+      const fr = new FrontRouter();
+      const filePath = tempfile('.js');
+      const onRead = (err, data) => expect(data.toString()).to.match('var BaseAppsRoutes = [].*var BaseAppsRoutes = []');
+
+      fr.writeRoutes(filePath).then(() => {
+        fr.writeRoutes(filePath).then(() => {
+          fs.readFile(filePath, onRead);
+        });
+      });
+    });
+
+    it('overwrites routes to a file', () => {
+      const fr = new FrontRouter({ overwrite: true });
+      const filePath = tempfile('.js');
+      const onRead = (err, data) => expect(data.toString()).to.not.match('var BaseAppsRoutes = [].*var BaseAppsRoutes = []');
+
+      fr.writeRoutes(filePath).then(() => {
+        fr.writeRoutes(filePath).then(() => {
+          fs.readFile(filePath, onRead);
+        });
+      });
+    });
+
     it('writes an alternate library adapter', () => {
       const fr = new FrontRouter({ library: 'angular' });
       const filePath = tempfile('.js');
@@ -87,6 +111,7 @@ describe('FrontRouter', () => {
 
 describe('front-router API', () => {
   const input = './test/fixtures/home.html';
+  const input2 = './test/fixtures/parent.html';
   const output = './test/fixtures/_build';
   const pageRoot = './test/fixtures';
 
@@ -100,7 +125,7 @@ describe('front-router API', () => {
       dest: output,
       root: pageRoot,
       path: path.join(output, 'routes.js')
-    }).then(() => checkFiles(done)).catch(done);
+    }).then(() => checkFiles('home', done)).catch(done);
   });
 
   it('works as a gulp plugin', done => {
@@ -112,27 +137,105 @@ describe('front-router API', () => {
       .pipe(vfs.dest(output))
       .on('finish', (err) => {
         if (err) throw err;
-        checkFiles(done);
+        checkFiles('home', done);
       });
+  });
+
+  it('works for appending routes', done => {
+    frontRouter({
+      src: input,
+      dest: output,
+      root: pageRoot,
+      path: path.join(output, 'routes.js')
+    }).then(() => {
+      frontRouter({
+        src: input2,
+        dest: output,
+        root: pageRoot,
+        path: path.join(output, 'routes.js')
+      }).then(() => {
+        checkFiles('home', () => {
+          checkFiles('parent', done);
+        });
+      }).catch(done);
+    }).catch(done);
+  });
+
+  it('works for overwriting routes', done => {
+    frontRouter({
+      src: input,
+      dest: output,
+      root: pageRoot,
+      path: path.join(output, 'routes.js')
+    }).then(() => {
+      frontRouter({
+        src: input2,
+        dest: output,
+        root: pageRoot,
+        path: path.join(output, 'routes.js'),
+        overwrite: true
+      }).then(() => {
+        checkHomeFiles(() => {
+          checkFiles('parent', done);
+        }, false);
+      }).catch(done);
+    }).catch(done);
   });
 
   /**
    * Verify that HTML files passed through the plugin had their Front Matter stripped, and that a routes JavaScript file was created.
    * @param {Function} cb - Callback for Mocha.
    */
-  function checkFiles(cb) {
-    const expected = {
-      name: 'home',
-      url: '/',
-      path: 'home.html'
-    }
+   function checkFiles(name, cb) {
+     switch (name) {
+       case 'home':
+         checkHomeFiles(cb, true); break;
+       case 'parent':
+         checkParentFiles(cb, true); break;
+       default:
+         cb(); break;
+     }
+   }
 
-    const pageFile = fs.readFileSync(path.join(output, 'home.html'));
-    const routesFile = fs.readFileSync(path.join(output, 'routes.js'));
+   function checkHomeFiles(cb, inRoutes) {
+     const expected = {
+       name: 'home',
+       url: '/',
+       path: 'home.html'
+     }
 
-    expect(pageFile.toString()).to.not.contain('---');
-    expect(routesFile.toString()).to.contain(JSON.stringify(expected));
+     const pageFile = fs.readFileSync(path.join(output, 'home.html'));
+     const routesFile = fs.readFileSync(path.join(output, 'routes.js'));
 
-    cb();
-  }
+     expect(pageFile.toString()).to.not.contain('---');
+
+     if (inRoutes) {
+       expect(routesFile.toString()).to.contain(JSON.stringify(expected));
+     } else {
+       expect(routesFile.toString()).to.not.contain(JSON.stringify(expected));
+     }
+
+     cb();
+   }
+
+   function checkParentFiles(cb, inRoutes) {
+     const expected = {
+       name: 'parent',
+       url: '/parent',
+       path: 'parent.html'
+     }
+
+     const pageFile = fs.readFileSync(path.join(output, 'parent.html'));
+     const routesFile = fs.readFileSync(path.join(output, 'routes.js'));
+
+     expect(pageFile.toString()).to.not.contain('---');
+
+     if (inRoutes) {
+       expect(routesFile.toString()).to.contain(JSON.stringify(expected));
+     } else {
+       expect(routesFile.toString()).to.not.contain(JSON.stringify(expected));
+     }
+
+     cb();
+   }
 });

@@ -10,6 +10,7 @@ const { PluginError } = require('gulp-util');
  * @prop {String} dest - Folder to output HTML files to. Not used in a Gulp context.
  * @prop {String} root - Common path to source HTML files.
  * @prop {String} path - File path for JavaScript routes file.
+ * @prop {String} overwrite - Whether or not to overwrite the routes file (appends by default).
  * @prop {String} library - Library to format routes file for.
  */
 
@@ -21,7 +22,8 @@ const { PluginError } = require('gulp-util');
 module.exports = opts => {
   const router = new FrontRouter({
     library: opts.library,
-    pageRoot: opts.root
+    pageRoot: opts.root,
+    overwrite: opts.overwrite
   });
 
   return hybrid({

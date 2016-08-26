@@ -19,7 +19,8 @@ module.exports = class FrontRouter {
    */
   constructor(opts = {}) {
     this.options = {
-      pageRoot: opts.pageRoot || process.cwd()
+      pageRoot: opts.pageRoot || process.cwd(),
+      overwrite: opts.overwrite || false
     }
     this.routes = [];
 
@@ -77,12 +78,20 @@ module.exports = class FrontRouter {
     });
 
     const contents = this.options.library(routes);
+    const overwrite = this.options.overwrite;
 
     return new Promise((resolve, reject) => {
-      fs.appendFile(filePath, contents, err => {
-        if (err) reject(err);
-        else resolve();
-      });
+      if (overwrite) {
+        fs.writeFile(filePath, contents, err => {
+          if (err) reject(err);
+          else resolve();
+        });
+      } else {
+        fs.appendFile(filePath, contents, err => {
+          if (err) reject(err);
+          else resolve();
+        });
+      }
     });
   }
 }
