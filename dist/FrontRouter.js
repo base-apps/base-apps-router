@@ -31,7 +31,8 @@ module.exports = function () {
     _classCallCheck(this, FrontRouter);
 
     this.options = {
-      pageRoot: opts.pageRoot || process.cwd()
+      pageRoot: opts.pageRoot || process.cwd(),
+      overwrite: opts.overwrite || false
     };
     this.routes = [];
 
@@ -99,11 +100,18 @@ module.exports = function () {
       });
 
       var contents = this.options.library(routes);
+      var overwrite = this.options.overwrite;
 
       return new Promise(function (resolve, reject) {
-        fs.appendFile(filePath, contents, function (err) {
-          if (err) reject(err);else resolve();
-        });
+        if (overwrite) {
+          fs.writeFile(filePath, contents, function (err) {
+            if (err) reject(err);else resolve();
+          });
+        } else {
+          fs.appendFile(filePath, contents, function (err) {
+            if (err) reject(err);else resolve();
+          });
+        }
       });
     }
   }]);
