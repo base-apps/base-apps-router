@@ -45,9 +45,11 @@ module.exports = opts => {
 
       if (file.isBuffer()) {
         const frontMatter = fm(file.contents.toString());
-        frontMatter.attributes.path = file.path;
-        router.addRoute(frontMatter.attributes);
-        file.contents = new Buffer(frontMatter.body);
+        if (frontMatter.frontmatter) {
+          frontMatter.attributes.path = file.path;
+          router.addRoute(frontMatter.attributes);
+          file.contents = new Buffer(frontMatter.body);
+        }
         cb(null, file);
       }
     },

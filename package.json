@@ -26,7 +26,7 @@
   },
   "homepage": "https://github.com/base-apps/base-apps-router",
   "dependencies": {
-    "front-matter": "^1.0.0",
+    "front-matter": "^2.1.0",
     "gulp-util": "^3.0.4",
     "hybrid-gulp": "^2.0.0",
     "through2": "^0.6.3"

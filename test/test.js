@@ -78,7 +78,7 @@ describe('FrontRouter', () => {
     it('appends routes to a file', () => {
       const fr = new FrontRouter();
       const filePath = tempfile('.js');
-      const onRead = (err, data) => expect(data.toString()).to.match('var BaseAppsRoutes = [].*var BaseAppsRoutes = []');
+      const onRead = (err, data) => expect(data.toString()).to.match(/var BaseAppsRoutes = [].*var BaseAppsRoutes = []/);
 
       fr.writeRoutes(filePath).then(() => {
         fr.writeRoutes(filePath).then(() => {
@@ -90,7 +90,7 @@ describe('FrontRouter', () => {
     it('overwrites routes to a file', () => {
       const fr = new FrontRouter({ overwrite: true });
       const filePath = tempfile('.js');
-      const onRead = (err, data) => expect(data.toString()).to.not.match('var BaseAppsRoutes = [].*var BaseAppsRoutes = []');
+      const onRead = (err, data) => expect(data.toString()).to.not.match(/var BaseAppsRoutes = [].*var BaseAppsRoutes = []/);
 
       fr.writeRoutes(filePath).then(() => {
         fr.writeRoutes(filePath).then(() => {
@@ -111,7 +111,8 @@ describe('FrontRouter', () => {
 
 describe('front-router API', () => {
   const input = './test/fixtures/home.html';
-  const input2 = './test/fixtures/parent.html';
+  const parent = './test/fixtures/parent.html';
+  const partial = './test/fixtures/partial.html';
   const output = './test/fixtures/_build';
   const pageRoot = './test/fixtures';
 
@@ -149,7 +150,7 @@ describe('front-router API', () => {
       path: path.join(output, 'routes.js')
     }).then(() => {
       frontRouter({
-        src: input2,
+        src: parent,
         dest: output,
         root: pageRoot,
         path: path.join(output, 'routes.js')
@@ -169,7 +170,7 @@ describe('front-router API', () => {
       path: path.join(output, 'routes.js')
     }).then(() => {
       frontRouter({
-        src: input2,
+        src: parent,
         dest: output,
         root: pageRoot,
         path: path.join(output, 'routes.js'),
@@ -182,6 +183,15 @@ describe('front-router API', () => {
     }).catch(done);
   });
 
+  it('works for html files without front matter', done => {
+    frontRouter({
+      src: partial,
+      dest: output,
+      root: pageRoot,
+      path: path.join(output, 'routes.js')
+    }).then(() => checkFiles('partial', done)).catch(done);
+  });
+
   /**
    * Verify that HTML files passed through the plugin had their Front Matter stripped, and that a routes JavaScript file was created.
    * @param {Function} cb - Callback for Mocha.
@@ -192,6 +202,8 @@ describe('front-router API', () => {
          checkHomeFiles(cb, true); break;
        case 'parent':
          checkParentFiles(cb, true); break;
+       case 'partial':
+         checkPartialFiles(cb); break;
        default:
          cb(); break;
      }
@@ -235,6 +247,20 @@ describe('front-router API', () => {
      } else {
        expect(routesFile.toString()).to.not.contain(JSON.stringify(expected));
      }
+
+     cb();
+   }
+
+   function checkPartialFiles(cb) {
+     const invalidroute = {
+       path: 'partial.html'
+     }
+
+     const pageFile = fs.readFileSync(path.join(output, 'partial.html'));
+     const routesFile = fs.readFileSync(path.join(output, 'routes.js'));
+
+     expect(pageFile.toString()).to.not.contain('---');
+     expect(routesFile.toString()).to.not.contain(JSON.stringify(invalidroute));
 
      cb();
    }
