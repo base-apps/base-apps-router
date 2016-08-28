@@ -78,7 +78,7 @@ describe('FrontRouter', () => {
     it('appends routes to a file', () => {
       const fr = new FrontRouter();
       const filePath = tempfile('.js');
-      const onRead = (err, data) => expect(data.toString()).to.match(/var BaseAppsRoutes = [].*var BaseAppsRoutes = []/);
+      const onRead = (err, data) => expect(data.toString()).to.match(/var BaseAppsRoutes = \[\].*var BaseAppsRoutes = \[\]/);
 
       fr.writeRoutes(filePath).then(() => {
         fr.writeRoutes(filePath).then(() => {
@@ -90,7 +90,7 @@ describe('FrontRouter', () => {
     it('overwrites routes to a file', () => {
       const fr = new FrontRouter({ overwrite: true });
       const filePath = tempfile('.js');
-      const onRead = (err, data) => expect(data.toString()).to.not.match(/var BaseAppsRoutes = [].*var BaseAppsRoutes = []/);
+      const onRead = (err, data) => expect(data.toString()).to.not.match(/var BaseAppsRoutes = \[\].*var BaseAppsRoutes = \[\]/);
 
       fr.writeRoutes(filePath).then(() => {
         fr.writeRoutes(filePath).then(() => {
