@@ -1,4 +1,5 @@
 module.exports = {
   default: require('./default'),
-  angular: require('./angular')
+  angular: require('./angular'),
+  node: require('./node')
 }

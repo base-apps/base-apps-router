@@ -70,7 +70,7 @@ Base Apps Router accepts the following parameters:
   - **path** (String): File path for JavaScript routes file.
   - **overwrite** (String): Whether or not to overwrite the routes file (appends by default).
   - **library** (String): Library to format routes file for.
-    - Values: default, angular
+    - Values: default, angular, node
 
 ## Libraries
 
@@ -83,6 +83,10 @@ If no library is provided, the route configuration will be output to the global 
 ### angular
 
 Use in combination with [Angular Dynamic Routing](https://github.com/base-apps/angular-dynamic-routing) to produce `ui-router` states for angular from the route configurations.  The `BaseAppsState` service provided by the `dynamicRouting` module will be used to configure the routes.
+
+### node
+
+Exports routes as a node module using `module.exports`.
 
 ## Front Matter Parameters
 

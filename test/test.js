@@ -78,7 +78,7 @@ describe('FrontRouter', () => {
     it('appends routes to a file', () => {
       const fr = new FrontRouter();
       const filePath = tempfile('.js');
-      const onRead = (err, data) => expect(data.toString()).to.match(/var BaseAppsRoutes = \[\].*var BaseAppsRoutes = \[\]/);
+      const onRead = (err, data) => expect(data.toString()).to.match(/.*var BaseAppsRoutes = \[\].*var BaseAppsRoutes = \[\].*/);
 
       fr.writeRoutes(filePath).then(() => {
         fr.writeRoutes(filePath).then(() => {
@@ -90,7 +90,7 @@ describe('FrontRouter', () => {
     it('overwrites routes to a file', () => {
       const fr = new FrontRouter({ overwrite: true });
       const filePath = tempfile('.js');
-      const onRead = (err, data) => expect(data.toString()).to.not.match(/var BaseAppsRoutes = \[\].*var BaseAppsRoutes = \[\]/);
+      const onRead = (err, data) => expect(data.toString()).to.not.match(/.*var BaseAppsRoutes = \[\].*var BaseAppsRoutes = \[\].*/);
 
       fr.writeRoutes(filePath).then(() => {
         fr.writeRoutes(filePath).then(() => {
@@ -99,10 +99,18 @@ describe('FrontRouter', () => {
       });
     });
 
-    it('writes an alternate library adapter', () => {
+    it('writes an angular adapter', () => {
       const fr = new FrontRouter({ library: 'angular' });
       const filePath = tempfile('.js');
       const onRead = (err, data) => expect(data.toString()).to.contain('angular.module');
+
+      fr.writeRoutes(filePath).then(() => fs.readFile(filePath, onRead));
+    });
+
+    it('writes a node adapater', () => {
+      const fr = new FrontRouter({ library: 'node' });
+      const filePath = tempfile('.js');
+      const onRead = (err, data) => expect(data.toString()).to.contain('module.exports');
 
       fr.writeRoutes(filePath).then(() => fs.readFile(filePath, onRead));
     });
@@ -110,7 +118,7 @@ describe('FrontRouter', () => {
 });
 
 describe('front-router API', () => {
-  const input = './test/fixtures/home.html';
+  const home = './test/fixtures/home.html';
   const parent = './test/fixtures/parent.html';
   const partial = './test/fixtures/partial.html';
   const output = './test/fixtures/_build';
@@ -122,7 +130,7 @@ describe('front-router API', () => {
 
   it('works standalone', done => {
     frontRouter({
-      src: input,
+      src: home,
       dest: output,
       root: pageRoot,
       path: path.join(output, 'routes.js')
@@ -130,7 +138,7 @@ describe('front-router API', () => {
   });
 
   it('works as a gulp plugin', done => {
-    vfs.src(input)
+    vfs.src(home)
       .pipe(frontRouter({
         root: pageRoot,
         path: path.join(output, 'routes.js')
@@ -144,7 +152,7 @@ describe('front-router API', () => {
 
   it('works for appending routes', done => {
     frontRouter({
-      src: input,
+      src: home,
       dest: output,
       root: pageRoot,
       path: path.join(output, 'routes.js')
@@ -164,7 +172,7 @@ describe('front-router API', () => {
 
   it('works for overwriting routes', done => {
     frontRouter({
-      src: input,
+      src: home,
       dest: output,
       root: pageRoot,
       path: path.join(output, 'routes.js')
