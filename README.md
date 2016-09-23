@@ -19,7 +19,7 @@ controller: PostController
 <h1>Post</h1>
 ```
 
-Front Router parses each file, removing the Front Matter from the HTML and storing it in a JavaScript object of states. This object is saved as a new JavaScript file, which can be read by another library and converted into actual routes.
+Base Apps Router parses each file, removing the Front Matter from the HTML and storing it in a JavaScript object of states. This object is saved as a new JavaScript file, which can be read by another library and converted into actual routes.
 
 This library was developed for use with [Angular Base Apps](https://github.com/base-apps/angular-base-apps), a responsive web app framework from [Base Apps](https://github.com/base-apps), to simplify the process of prototyping single-page web apps.
 
@@ -66,6 +66,7 @@ Base Apps Router accepts the following parameters:
 
   - **src** (String): Glob of HTML files to parse. Not used in a Gulp context.
   - **dest** (String): Folder to output HTML files to. Not used in a Gulp context.
+    - If not provided, output of HTML files will be skipped.
   - **root** (String): Common path to source HTML files.
   - **path** (String): File path for JavaScript routes file.
   - **overwrite** (String): Whether or not to overwrite the routes file (appends by default).

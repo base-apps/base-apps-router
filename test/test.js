@@ -137,6 +137,14 @@ describe('front-router API', () => {
     }).then(() => checkFiles('home', done)).catch(done);
   });
 
+  it('works standalone without HTML output', done => {
+    frontRouter({
+      src: home,
+      root: pageRoot,
+      path: path.join(output, 'routes.js')
+    }).then(() => checkNoFiles('home', done)).catch(done);
+  });
+
   it('works as a gulp plugin', done => {
     vfs.src(home)
       .pipe(frontRouter({
@@ -215,6 +223,13 @@ describe('front-router API', () => {
        default:
          cb(); break;
      }
+   }
+
+   function checkNoFiles(name, cb) {
+     fs.stat(path.join(output, name + '.html'), function(err, data) {
+       expect(err).to.be.defined;
+       cb();
+     });
    }
 
    function checkHomeFiles(cb, inRoutes) {
