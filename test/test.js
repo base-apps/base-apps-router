@@ -75,10 +75,13 @@ describe('FrontRouter', () => {
       fr.writeRoutes(filePath).then(() => fs.readFile(filePath, onRead));
     });
 
-    it('appends routes to a file', () => {
+    it('appends routes to a file', done => {
       const fr = new FrontRouter();
       const filePath = tempfile('.js');
-      const onRead = (err, data) => expect(data.toString()).to.match(/.*var BaseAppsRoutes = \[\].*var BaseAppsRoutes = \[\].*/);
+      const onRead = (err, data) => {
+        expect(data.toString()).to.match(/\s*var BaseAppsRoutes = \[\]\;\s*var BaseAppsRoutes = \[\]\;\s*/);
+        done();
+      };
 
       fr.writeRoutes(filePath).then(() => {
         fr.writeRoutes(filePath).then(() => {
@@ -87,10 +90,13 @@ describe('FrontRouter', () => {
       });
     });
 
-    it('overwrites routes to a file', () => {
+    it('overwrites routes to a file', done => {
       const fr = new FrontRouter({ overwrite: true });
       const filePath = tempfile('.js');
-      const onRead = (err, data) => expect(data.toString()).to.not.match(/.*var BaseAppsRoutes = \[\].*var BaseAppsRoutes = \[\].*/);
+      const onRead = (err, data) => {
+        expect(data.toString()).to.not.match(/\s*var BaseAppsRoutes = \[\]\;\s*var BaseAppsRoutes = \[\]\;\s*/);
+        done();
+      };
 
       fr.writeRoutes(filePath).then(() => {
         fr.writeRoutes(filePath).then(() => {
@@ -99,18 +105,24 @@ describe('FrontRouter', () => {
       });
     });
 
-    it('writes an angular adapter', () => {
+    it('writes an angular adapter', done => {
       const fr = new FrontRouter({ library: 'angular' });
       const filePath = tempfile('.js');
-      const onRead = (err, data) => expect(data.toString()).to.contain('angular.module');
+      const onRead = (err, data) => {
+        expect(data.toString()).to.contain('angular.module');
+        done();
+      };
 
       fr.writeRoutes(filePath).then(() => fs.readFile(filePath, onRead));
     });
 
-    it('writes a node adapater', () => {
+    it('writes a node adapater', done => {
       const fr = new FrontRouter({ library: 'node' });
       const filePath = tempfile('.js');
-      const onRead = (err, data) => expect(data.toString()).to.contain('module.exports');
+      const onRead = (err, data) => {
+        expect(data.toString()).to.contain('module.exports');
+        done();
+      };
 
       fr.writeRoutes(filePath).then(() => fs.readFile(filePath, onRead));
     });
