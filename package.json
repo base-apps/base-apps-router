@@ -1,6 +1,6 @@
 {
   "name": "base-apps-router",
-  "version": "1.2.5",
+  "version": "1.2.6",
   "description": "Generate AngularJS states from Front Matter in state templates.",
   "main": "dist/index.js",
   "scripts": {
