@@ -63,7 +63,7 @@ module.exports = class FrontRouter {
       throw new Error('Front Router: routes must be objects.');
     }
     this.routes.push(Object.assign({}, route, {
-      path: path.relative(this.options.pageRoot, route.path)
+      path: path.relative(this.options.pageRoot, route.path).replace(/\\/g, '/')
     }));
   }
 
